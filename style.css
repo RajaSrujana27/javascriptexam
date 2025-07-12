@@ -1,0 +1,23 @@
+   .heading {
+      padding-left: 120px;
+    }
+    button {
+      background-color: blue;
+      padding: 4px;
+      color: white;
+      border: none;
+      margin: 7px;
+    }
+    body.dark-mode {
+      background-color: #222;
+      color: #fff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+    }

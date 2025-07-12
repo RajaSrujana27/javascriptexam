@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Score Manager</title>
+  <link rel="stylesheet" href="style.css" />
+  
+</head>
+<body>
+  <h1 class="heading">Student Score Manager</h1>
+
+  <div>
+    <input type="text" id="name-input" placeholder="Name" required />
+    <input type="text" id="subject-input" placeholder="Subject" required />
+    <input type="number" id="score-input" placeholder="Score (0-100)" required />
+    <button onclick="submit()">Add/Update</button>
+  </div>
+
+  <div>
+    <input type="text" id="search-input" placeholder="Search by name" />
+    <button onclick="sortByName()">Sort by Name</button>
+    <button onclick="sortByScore()">Sort by Score</button>
+    <button onclick="showAllData()">Show All Data</button>
+    <button onclick="toggleMode()">Toggle Dark Mode / Light Mode</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Subject</th>
+        <th>Score</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="data-body">
+      <!-- data store -->
+    </tbody>
+  </table>
+  <script>
+    let dataList = [];
+
+    function submit() {
+      const name = document.getElementById("name-input").value.trim();
+      const subject = document.getElementById("subject-input").value.trim();
+      const score = parseInt(document.getElementById("score-input").value);
+
+      if (!name || !subject || isNaN(score)) {
+        alert("Please enter valid data.");
+        return;
+      }
+      const existingIndex = dataList.findIndex(item => item.name === name && item.subject === subject);
+      if (existingIndex !== -1) {
+        dataList[existingIndex].score = score;
+      } else {
+        dataList.push({ name, subject, score });
+      }
+      
+      renderData(dataList);
+      document.getElementById("name-input").value = "";
+      document.getElementById("subject-input").value = "";
+      document.getElementById("score-input").value = "";
+    }
+
+    function renderData(list) {
+      const tbody = document.getElementById("data-body");
+      tbody.innerHTML = "";
+
+      list.forEach((item, index) => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.subject}</td>
+          <td>${item.score}</td>
+          <td>
+            <button onclick="deleteRow(${index})">Delete</button>
+            <button  onclick = "updateRow(${index})"">Update</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateRow(Index){
+        dataList.append(Index)
+    }
+
+    function deleteRow(index) {
+      dataList.splice(index, 1);
+      renderData(dataList);
+    }
+
+    function sortByName() {
+      const sorted = [...dataList].sort((a, b) => a.name.localsCompare (b.name));
+      renderData(sorted);
+    }
+
+    function sortByScore() {
+      const sorted = [...dataList].sort((a, b) => b.score - a.score);
+      renderData(sorted);
+    }
+
+    function showAllData() {
+      renderData(dataList);
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+  </script>
+</body>
+</html>
