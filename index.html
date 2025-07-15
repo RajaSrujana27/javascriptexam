@@ -84,7 +84,8 @@
     }
 
     function updateRow(Index){
-        dataList.append(Index)
+          const item = dataList[index];
+          document.getElementById("name-input").value = item.name;
     }
 
     function deleteRow(index) {
@@ -93,7 +94,7 @@
     }
 
     function sortByName() {
-      const sorted = [...dataList].sort((a, b) => a.name.localsCompare (b.name));
+      const sorted = [...dataList].sort((a, b) => a.name.localeCompare (b.name));
       renderData(sorted);
     }
 
